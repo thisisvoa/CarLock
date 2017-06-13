@@ -8,7 +8,7 @@
 
     <modules>
         <module>knight-boot</module>
-        <module>knight-qrcode-netty</module>
+        <module>knight-netty</module>
 
     </modules>
 

@@ -3,8 +3,6 @@ package com.kfit;
 import cn.com.reformer.netty.bean.Client;
 import cn.com.reformer.netty.bean.TcpUser;
 import cn.com.reformer.netty.communication.QrcodeTcpMessageSender;
-import cn.com.reformer.netty.server.TCPServer;
-import cn.com.reformer.netty.util.msg.ClientManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -74,7 +72,7 @@ public class App {
     @RequestMapping(value = "/open", method = RequestMethod.GET)
     @ResponseBody
     public String open() {
-        qrcodeTcpMessageSender.openDoor("0090C2501025", "123456789");
+        qrcodeTcpMessageSender.openDoor("123456789");
         return "open success";
     }
 
