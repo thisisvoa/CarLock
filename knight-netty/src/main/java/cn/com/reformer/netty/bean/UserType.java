@@ -8,7 +8,7 @@ package cn.com.reformer.netty.bean;
 **/
 public enum UserType {
 
-    QRCODEMACHINE("二维码扫描柱", 0), OTHERMACHINE("其他设备类型", 1);
+    CARLOCK("车位锁", 0), OTHERMACHINE("其他设备类型", 1);
 
     // 成员变量
     private String name;

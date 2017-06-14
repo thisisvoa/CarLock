@@ -3,6 +3,7 @@ package cn.com.reformer.netty.handler;
 import cn.com.reformer.netty.adapter.TCPMessageHandlerAdapter;
 import cn.com.reformer.netty.bean.BaseParam;
 import cn.com.reformer.netty.bean.TcpUser;
+import cn.com.reformer.netty.bean.UserType;
 import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import cn.com.reformer.netty.msg.MSG_0x01;
 import cn.com.reformer.netty.util.msg.ClientManager;
@@ -30,6 +31,13 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
     public void doHandle(BaseParam m, ChannelHandlerContext ctx) {
 
         MSG_0x01 ret=new MSG_0x01();
+
+        TcpUser user=new TcpUser();
+        user.setType(UserType.CARLOCK);
+        user.setSn(m.getSn());
+
+        clientManager.addClient(ctx,user);
+
         ret.setSn(m.getSn());
         ret.setVersion(m.getVersion());
         ret.setNonce(m.getNonce());
