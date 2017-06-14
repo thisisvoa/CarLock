@@ -182,7 +182,7 @@
                         <exclude>**/db.properties</exclude>
                         <exclude>**/log4j.properties</exclude>
                         <exclude>**/netty-config.properties</exclude>
-                        <exclude>**/netty-qrcode-config.properties</exclude>
+                        <exclude>**/netty-config.properties</exclude>
                     </excludes>
                 </configuration>
                 <executions>

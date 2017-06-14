@@ -24,11 +24,11 @@
 
 
     <bean id="tcpBossThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
-        <constructor-arg type="java.lang.String" value="qrcode-Server-Boss"/>
+        <constructor-arg type="java.lang.String" value="carLock-Server-Boss"/>
     </bean>
 
     <bean id="tcpWorkerThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
-        <constructor-arg type="java.lang.String" index="0" value="qrcode-Server-Worker"/>
+        <constructor-arg type="java.lang.String" index="0" value="carLock-Server-Worker"/>
     </bean>
 
 
@@ -75,7 +75,7 @@
         <property name="channelOptions" ref="tcpChildOptions"/>
         <property name="bossGroup" ref="tcpBossGroup"/>
         <property name="workerGroup" ref="tcpWorkerGroup"/>
-        <property name="portNumber" value="${knight.qrcode.tcpserver.port}"/>
+        <property name="portNumber" value="${knight.carLock.tcpserver.port}"/>
     </bean>
 
     <bean id="msgHandlerGroup" class="io.netty.util.concurrent.DefaultEventExecutorGroup">
