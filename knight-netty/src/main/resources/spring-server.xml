@@ -14,7 +14,7 @@
 
     <context:property-placeholder location="classpath*:netty-config.properties" ignore-unresolvable="true"/>
     <context:annotation-config/>
-    <bean id="qrcodeCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
             <set>
                 <bean name="messageCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
@@ -23,16 +23,16 @@
     </bean>
 
 
-    <bean id="qrcodeBossThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
+    <bean id="tcpBossThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
         <constructor-arg type="java.lang.String" value="qrcode-Server-Boss"/>
     </bean>
 
-    <bean id="qrcodeWorkerThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
+    <bean id="tcpWorkerThreadFactory" class="cn.com.reformer.netty.concurrent.NamedThreadFactory">
         <constructor-arg type="java.lang.String" index="0" value="qrcode-Server-Worker"/>
     </bean>
 
 
-    <util:map id="qrcodeTcpChildOptions" map-class="java.util.HashMap">
+    <util:map id="tcpChildOptions" map-class="java.util.HashMap">
         <entry>
             <key>
                 <util:constant static-field="io.netty.channel.ChannelOption.SO_KEEPALIVE"/>
@@ -61,24 +61,24 @@
             <value type="java.lang.Integer">2048</value>
         </entry>
     </util:map>
-    <bean id="qrcodeTcpBossGroup" class="io.netty.channel.nio.NioEventLoopGroup" destroy-method="shutdownGracefully">
+    <bean id="tcpBossGroup" class="io.netty.channel.nio.NioEventLoopGroup" destroy-method="shutdownGracefully">
         <constructor-arg type="int" index="0" value="1"/>
-        <constructor-arg index="1" ref="qrcodeBossThreadFactory"/>
+        <constructor-arg index="1" ref="tcpBossThreadFactory"/>
     </bean>
 
-    <bean id="qrcodeTcpWorkerGroup" class="io.netty.channel.nio.NioEventLoopGroup" destroy-method="shutdownGracefully">
+    <bean id="tcpWorkerGroup" class="io.netty.channel.nio.NioEventLoopGroup" destroy-method="shutdownGracefully">
         <constructor-arg type="int" index="0" value="5"/>
-        <constructor-arg index="1" ref="qrcodeWorkerThreadFactory"/>
+        <constructor-arg index="1" ref="tcpWorkerThreadFactory"/>
     </bean>
 
-    <bean id="qrcodeTcpConfig" class="cn.com.reformer.netty.server.NettyConfig">
-        <property name="channelOptions" ref="qrcodeTcpChildOptions"/>
-        <property name="bossGroup" ref="qrcodeTcpBossGroup"/>
-        <property name="workerGroup" ref="qrcodeTcpWorkerGroup"/>
+    <bean id="tcpConfig" class="cn.com.reformer.netty.server.NettyConfig">
+        <property name="channelOptions" ref="tcpChildOptions"/>
+        <property name="bossGroup" ref="tcpBossGroup"/>
+        <property name="workerGroup" ref="tcpWorkerGroup"/>
         <property name="portNumber" value="${knight.qrcode.tcpserver.port}"/>
     </bean>
 
-    <bean id="qrcodeMsgHandlerGroup" class="io.netty.util.concurrent.DefaultEventExecutorGroup">
+    <bean id="msgHandlerGroup" class="io.netty.util.concurrent.DefaultEventExecutorGroup">
         <constructor-arg index="0" type="int" value="${knight.business.handler.thread}"></constructor-arg>
     </bean>
     <context:property-placeholder location="classpath*:netty-config.properties" ignore-unresolvable="true"/>
@@ -93,7 +93,7 @@
     <!-- 请求分发工厂类-->
     <bean id="handlerFactory" class="cn.com.reformer.netty.handler.HandlerFactory"></bean>
     <!-- netty 服务处理类-->
-    <bean id="qrcodeTcpMessageHandler" class="cn.com.reformer.netty.handler.TCPMessageHandler" scope="singleton"/>
+    <bean id="tcpMessageHandler" class="cn.com.reformer.netty.handler.TCPMessageHandler" scope="singleton"/>
     <!-- 线程池（处理消息）管理-->
     <bean id="parseMsgThreadManager" class="cn.com.reformer.netty.server.thread.ParseMsgThreadManager"
           init-method="run">
@@ -118,13 +118,13 @@
         <property name="period" value="${tcp.temclientperiod}"></property>
     </bean>
 
-    <bean id="qrCodeTcpServer" class="cn.com.reformer.netty.server.TCPServer" init-method="startServer"
+    <bean id="tcpServer" class="cn.com.reformer.netty.server.TCPServer" init-method="startServer"
           destroy-method="stopServer">
-        <constructor-arg ref="qrcodeTcpConfig"/>
-        <constructor-arg ref="qrCodeTcpChannelInitializer"/>
+        <constructor-arg ref="tcpConfig"/>
+        <constructor-arg ref="tcpChannelInitializer"/>
     </bean>
-    <bean id="qrCodeTcpChannelInitializer" class="cn.com.reformer.netty.server.TCPServerChannelInitializer"></bean>
+    <bean id="tcpChannelInitializer" class="cn.com.reformer.netty.server.TCPServerChannelInitializer"></bean>
 
 
-    <bean id="qrcodeTcpMessageSender" class="cn.com.reformer.netty.communication.QrcodeTcpMessageSender"></bean>
+    <bean id="tcpMessageSender" class="cn.com.reformer.netty.communication.CarLockTcpMessageSender"></bean>
 </beans>

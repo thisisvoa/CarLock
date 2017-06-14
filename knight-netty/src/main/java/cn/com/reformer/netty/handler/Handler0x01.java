@@ -3,7 +3,7 @@ package cn.com.reformer.netty.handler;
 import cn.com.reformer.netty.adapter.TCPMessageHandlerAdapter;
 import cn.com.reformer.netty.bean.BaseParam;
 import cn.com.reformer.netty.bean.TcpUser;
-import cn.com.reformer.netty.communication.QrcodeTcpMessageSender;
+import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import cn.com.reformer.netty.msg.MSG_0x01;
 import cn.com.reformer.netty.util.msg.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +24,7 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
     @Autowired(required = true)
     private ClientManager clientManager;
     @Autowired(required = true)
-    private QrcodeTcpMessageSender qrcodeTcpMessageSender;
+    private CarLockTcpMessageSender carLockTcpMessageSender;
 
 
     public void doHandle(BaseParam m, ChannelHandlerContext ctx) {

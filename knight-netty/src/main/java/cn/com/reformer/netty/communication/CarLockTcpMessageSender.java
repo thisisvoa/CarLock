@@ -17,16 +17,16 @@ import java.util.Random;
  * @author zhangjin
  * @create 2017-05-08
 **/
-public class QrcodeTcpMessageSender extends TCPMessageSender {
+public class CarLockTcpMessageSender extends TCPMessageSender {
 
     @Autowired(required = true)
     private ClientManager clientManager;
 
-    public QrcodeTcpMessageSender(Channel channel) {
+    public CarLockTcpMessageSender(Channel channel) {
         super(channel);
     }
 
-    public QrcodeTcpMessageSender() {
+    public CarLockTcpMessageSender() {
         super();
     }
 

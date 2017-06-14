@@ -48,9 +48,9 @@ public class TCPServer extends AbstractServer {
     public void startServer() throws Exception {
         try {
             serverBootstrap = new ServerBootstrap();
-            LOG.info("****** Start theQrcodeToTcp TCP server, port {} ******", this.getNettyConfig().getPortNumber());
+            LOG.info("****** Start the CarLock TCP server, port {} ******", this.getNettyConfig().getPortNumber());
             if (getChannelInitializer() == null) {
-                LOG.error("****** Start theQrcodeToTcp TCP server failed, port {}. Please check the server config. ******", nettyConfig.getPortNumber());
+                LOG.error("****** Start the CarLock TCP server failed, port {}. Please check the server config. ******", nettyConfig.getPortNumber());
                 return;
             }
 
@@ -72,9 +72,9 @@ public class TCPServer extends AbstractServer {
                 public void operationComplete(ChannelFuture future) throws Exception {
                     if (cf.isSuccess()) {
                         ALL_CHANNELS.add(cf.channel());
-                        LOG.info("****** Start theQrcodeToTcp TCP server successfully, port {} ******", nettyConfig.getPortNumber());
+                        LOG.info("****** Start the CarLock TCP server successfully, port {} ******", nettyConfig.getPortNumber());
                     } else {
-                        LOG.info("****** Start the QrcodeToTcp TCP server failed, port {}. The cause is {} ******", nettyConfig.getPortNumber(), cf.cause());
+                        LOG.info("****** Start the CarLock TCP server failed, port {}. The cause is {} ******", nettyConfig.getPortNumber(), cf.cause());
                     }
                 }
             });

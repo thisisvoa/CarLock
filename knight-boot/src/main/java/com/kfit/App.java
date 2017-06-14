@@ -2,7 +2,7 @@ package com.kfit;
 
 import cn.com.reformer.netty.bean.Client;
 import cn.com.reformer.netty.bean.TcpUser;
-import cn.com.reformer.netty.communication.QrcodeTcpMessageSender;
+import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class App {
 
     @Autowired
-    private QrcodeTcpMessageSender qrcodeTcpMessageSender;
+    private CarLockTcpMessageSender carLockTcpMessageSender;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @ResponseBody
@@ -49,7 +49,7 @@ public class App {
     @ResponseBody
     public String list() {
 
-        ConcurrentHashMap<String, Client> clientConcurrentHashMap= qrcodeTcpMessageSender.getClientManager().getClientMap();
+        ConcurrentHashMap<String, Client> clientConcurrentHashMap= carLockTcpMessageSender.getClientManager().getClientMap();
 
         Iterator iter = clientConcurrentHashMap.entrySet().iterator();
         StringBuffer sb=new StringBuffer();
@@ -72,7 +72,7 @@ public class App {
     @RequestMapping(value = "/open", method = RequestMethod.GET)
     @ResponseBody
     public String open() {
-        qrcodeTcpMessageSender.openDoor("123456789");
+        carLockTcpMessageSender.openDoor("123456789");
         return "open success";
     }
 

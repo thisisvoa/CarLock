@@ -2,7 +2,7 @@ package cn.com.reformer.netty.handler;
 
 import cn.com.reformer.netty.adapter.TCPMessageHandlerAdapter;
 import cn.com.reformer.netty.bean.BaseParam;
-import cn.com.reformer.netty.communication.QrcodeTcpMessageSender;
+import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import cn.com.reformer.netty.util.msg.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public class Handler0x02 extends TCPMessageHandlerAdapter {
     private ClientManager clientManager;
 
     @Autowired(required = true)
-    private QrcodeTcpMessageSender qrcodeTcpMessageSender;
+    private CarLockTcpMessageSender carLockTcpMessageSender;
     public void doHandle(BaseParam m, ChannelHandlerContext ctx) {
 
         System.out.println("开门返回："+m.toString());
