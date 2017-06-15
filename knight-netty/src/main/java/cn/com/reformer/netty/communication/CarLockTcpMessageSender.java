@@ -4,6 +4,7 @@ import cn.com.reformer.netty.bean.BaseParam;
 import cn.com.reformer.netty.bean.Client;
 import cn.com.reformer.netty.util.SignUtils;
 import cn.com.reformer.netty.util.msg.ClientManager;
+import com.google.gson.Gson;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +42,10 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
         int randomDig=nextInt(10000,100000);
         baseParam.setNonce(String.valueOf(randomDig));
         byte cmd=0x02;
-        baseParam.setSign(SignUtils.getSigin(sn,cmd,String.valueOf(randomDig)));
+        baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
 
-        channel.writeAndFlush(baseParam);
-        channel.writeAndFlush(baseParam);
+        String o = new Gson().toJson(baseParam);
+        channel.writeAndFlush(o);
 
 
     }

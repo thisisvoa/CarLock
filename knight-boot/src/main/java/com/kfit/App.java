@@ -71,8 +71,8 @@ public class App {
 
     @RequestMapping(value = "/open", method = RequestMethod.GET)
     @ResponseBody
-    public String open() {
-        carLockTcpMessageSender.openDoor("123456789");
+    public String open(String sn) {
+        carLockTcpMessageSender.openDoor(sn);
         return "open success";
     }
 

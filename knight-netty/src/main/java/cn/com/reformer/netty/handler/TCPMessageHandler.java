@@ -24,7 +24,7 @@ import java.net.InetSocketAddress;
  * @create 2017-05-08
 **/
 @ChannelHandler.Sharable
-public class TCPMessageHandler extends SimpleChannelInboundHandler {
+public class TCPMessageHandler extends SimpleChannelInboundHandler <String>{
     private static final Logger LOG = LoggerFactory.getLogger(TCPMessageHandler.class);
 
     @Autowired
@@ -34,15 +34,18 @@ public class TCPMessageHandler extends SimpleChannelInboundHandler {
     private ClientManager clientManager;
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 
-        System.out.println("收到数据"+msg.toString());
+        System.out.println("收到数据" + msg.toString());
+        if(msg.indexOf("world")>1){
+            ctx.writeAndFlush("have get hello world");
+            TcpUser user=new TcpUser();
+            user.setType(UserType.CARLOCK);
+            user.setSn("123456789");
 
-        TcpUser user=new TcpUser();
-        user.setType(UserType.CARLOCK);
-        user.setSn("123456789");
+            clientManager.addClient(ctx, user);
+        }
 
-        clientManager.addClient(ctx, user);
         BaseParam bpg=null;
         Gson g=new Gson();
         try{

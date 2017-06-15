@@ -7,6 +7,7 @@ import cn.com.reformer.netty.bean.UserType;
 import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import cn.com.reformer.netty.msg.MSG_0x01;
 import cn.com.reformer.netty.util.msg.ClientManager;
+import com.google.gson.Gson;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,14 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
         user.setType(UserType.CARLOCK);
         user.setSn(m.getSn());
 
-        clientManager.addClient(ctx,user);
+        clientManager.addClient(ctx, user);
 
         ret.setSn(m.getSn());
         ret.setVersion(m.getVersion());
         ret.setNonce(m.getNonce());
         ret.setSign(m.getSign());
-        ctx.writeAndFlush(ret);
+        String o = new Gson().toJson(ret);
+        ctx.writeAndFlush(o);
 
 
     }
