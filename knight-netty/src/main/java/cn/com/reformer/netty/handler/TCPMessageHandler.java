@@ -39,15 +39,19 @@ public class TCPMessageHandler extends SimpleChannelInboundHandler <String>{
         Gson g=new Gson();
         try{
             bpg= g.fromJson(msg.toString(), BaseParam.class);
-            try {
+
+            if(null !=bpg){
+                try {
 
                     ReceivePackBean receivePackBean = new ReceivePackBean();
                     receivePackBean.setChannel(ctx);
                     receivePackBean.setMsg(bpg);
                     ServerMsgQueue.getRecqueue().put(receivePackBean);
-            } catch (InterruptedException e) {
-                LOG.error("主handler---接收消息失败", e);
+                } catch (InterruptedException e) {
+                    LOG.error("主handler---接收消息失败", e);
+                }
             }
+
         }catch(Exception e){
             LOG.error(String.valueOf("发送的数据格式有误请重新发送".getBytes("UTF-8")));
 
