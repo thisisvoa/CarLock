@@ -40,6 +40,7 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
         clientManager.addClient(ctx, user);
 
         ret.setSn(m.getSn());
+        ret.setCmd(m.getCmd());
         ret.setVersion(m.getVersion());
         ret.setNonce(m.getNonce());
         ret.setSign(m.getSign());

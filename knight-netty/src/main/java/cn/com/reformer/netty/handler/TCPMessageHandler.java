@@ -1,8 +1,6 @@
 package cn.com.reformer.netty.handler;
 
 import cn.com.reformer.netty.bean.BaseParam;
-import cn.com.reformer.netty.bean.TcpUser;
-import cn.com.reformer.netty.bean.UserType;
 import cn.com.reformer.netty.msg.ReceivePackBean;
 import cn.com.reformer.netty.msg.ServerMsgQueue;
 import cn.com.reformer.netty.util.msg.ClientManager;
@@ -37,15 +35,6 @@ public class TCPMessageHandler extends SimpleChannelInboundHandler <String>{
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 
         System.out.println("收到数据" + msg.toString());
-        if(msg.indexOf("world")>1){
-            ctx.writeAndFlush("have get hello world");
-            TcpUser user=new TcpUser();
-            user.setType(UserType.CARLOCK);
-            user.setSn("123456789");
-
-            clientManager.addClient(ctx, user);
-        }
-
         BaseParam bpg=null;
         Gson g=new Gson();
         try{
