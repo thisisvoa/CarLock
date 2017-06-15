@@ -6,6 +6,7 @@ import cn.com.reformer.netty.bean.TcpUser;
 import cn.com.reformer.netty.bean.UserType;
 import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import cn.com.reformer.netty.msg.MSG_0x01;
+import cn.com.reformer.netty.util.SignUtils;
 import cn.com.reformer.netty.util.msg.ClientManager;
 import com.google.gson.Gson;
 import io.netty.channel.ChannelHandlerContext;
@@ -45,8 +46,15 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
         ret.setNonce(m.getNonce());
         ret.setSign(m.getSign());
 
-        String o = new Gson().toJson(ret);
-        ctx.writeAndFlush(o);
+        if(null !=m && null != m.getSn()&& null !=m.getNonce()) {
+            String checkValue = SignUtils.getSigin(m.getSn(), m.getCmd(), m.getNonce());
+            logger.debug("recevice checkValue"+m.getSign());
+            logger.debug("checkValue"+checkValue);
+            String o = new Gson().toJson(ret);
+            ctx.writeAndFlush(o);
+
+        }
+
 
 
     }
