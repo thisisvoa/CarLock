@@ -9,6 +9,6 @@
 <body>
 helloJsp
 <hr>
-${hello}
+
 </body>
 </html>

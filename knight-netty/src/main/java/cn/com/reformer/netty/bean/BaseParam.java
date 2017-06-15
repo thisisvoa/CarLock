@@ -6,7 +6,7 @@ public     class BaseParam  implements MessagePacket{
    
 	private byte cmd;//类型  1心跳 2 遥控开  3 查询状态
 	private  String sn; //自己的id
-	private  String version;
+	private  byte version;
 	private String nonce;
 	private String sign;
 	private  String sentid; //发送的用户
@@ -38,11 +38,11 @@ public     class BaseParam  implements MessagePacket{
 		this.sentMsg = sentMsg;
 	}
 
-	public String getVersion() {
+	public byte getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(byte version) {
 		this.version = version;
 	}
 
