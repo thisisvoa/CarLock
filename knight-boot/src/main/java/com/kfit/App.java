@@ -38,7 +38,8 @@ public class App {
     private CarLockTcpMessageSender carLockTcpMessageSender;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String hello() {
+    public String hello(Model model) {
+        model.addAttribute("hello", " 1123123");
         return "hello";
     }
 
