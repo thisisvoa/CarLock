@@ -7,6 +7,8 @@ import cn.com.reformer.netty.util.msg.ClientManager;
 import com.google.gson.Gson;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
@@ -20,6 +22,7 @@ import java.util.Random;
 **/
 public class CarLockTcpMessageSender extends TCPMessageSender {
 
+    Logger logger = LoggerFactory.getLogger(CarLockTcpMessageSender.class);
     @Autowired(required = true)
     private ClientManager clientManager;
 
@@ -35,19 +38,36 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
 
         Client client = ClientManager.getClientBySN(sn);
 
-        ChannelHandlerContext channel = client.getChannel();
+        if(null != client){
+            BaseParam baseParam = createBaseParam(sn);
 
+            ChannelHandlerContext channel = client.getChannel();
+            if(null != channel){
+                String o = new Gson().toJson(baseParam);
+                channel.writeAndFlush(o);
+            }
+            else{
+                logger.debug("设备不在线，通道channel为空，执行失败");
+            }
+
+        }
+        else{
+            logger.debug("设备不在线，执行失败");
+        }
+
+
+
+
+    }
+
+    private BaseParam createBaseParam(String sn) {
         BaseParam baseParam=new BaseParam();
         baseParam.setSn(sn);
         int randomDig=nextInt(10000,100000);
         baseParam.setNonce(String.valueOf(randomDig));
         byte cmd=0x02;
         baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
-
-        String o = new Gson().toJson(baseParam);
-        channel.writeAndFlush(o);
-
-
+        return baseParam;
     }
 
     public int nextInt(final int min, final int max) {

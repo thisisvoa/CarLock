@@ -44,6 +44,7 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
         ret.setVersion(m.getVersion());
         ret.setNonce(m.getNonce());
         ret.setSign(m.getSign());
+
         String o = new Gson().toJson(ret);
         ctx.writeAndFlush(o);
 
