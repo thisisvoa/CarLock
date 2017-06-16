@@ -2,6 +2,7 @@ package com.kfit;
 
 import cn.com.reformer.netty.bean.Client;
 import cn.com.reformer.netty.bean.TcpUser;
+import cn.com.reformer.netty.bean.TcpUserVO;
 import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -44,11 +43,10 @@ public class App {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-    public String list() {
+    public String list(Model model) {
 
         ConcurrentHashMap<String, Client> clientConcurrentHashMap= carLockTcpMessageSender.getClientManager().getClientMap();
-
+        List<TcpUser> tcpUserList=new ArrayList<TcpUser>();
         Iterator iter = clientConcurrentHashMap.entrySet().iterator();
         StringBuffer sb=new StringBuffer();
          while (iter.hasNext()) {
@@ -58,12 +56,20 @@ public class App {
              Client user= (Client) val;
              if(null !=user) {
                  TcpUser user1 = user.getUser();
+                 TcpUserVO vo=new TcpUserVO();
+                 vo.setSn(user1.getSn());
+                 vo.setType(user1.getType());
+                 vo.setIpAndPort(key.toString());
+                 tcpUserList.add(vo);
                  sb.append("clientId:" + key + "---" + "TcpUser:" + user1.getSn());
              }
 
              sb.append("<br>");
              }
-        return  sb.toString();
+       // model.addAttribute("list", sb);
+        model.addAttribute("tcpUserList", tcpUserList);
+
+        return "list";
     }
 
 

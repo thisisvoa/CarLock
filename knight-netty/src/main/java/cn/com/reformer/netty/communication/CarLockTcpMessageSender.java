@@ -61,11 +61,12 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
     }
 
     private BaseParam createBaseParam(String sn) {
+        byte cmd=0x02;
         BaseParam baseParam=new BaseParam();
         baseParam.setSn(sn);
+        baseParam.setCmd(cmd);
         int randomDig=nextInt(10000,100000);
         baseParam.setNonce(String.valueOf(randomDig));
-        byte cmd=0x02;
         baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
         return baseParam;
     }

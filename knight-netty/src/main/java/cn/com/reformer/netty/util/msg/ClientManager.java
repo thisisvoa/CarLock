@@ -62,18 +62,7 @@ public class ClientManager {
                 channel = null;
             }
         }
-        /*for (String key : clientMap.keySet()) {
-            String anObject = getIP_Port(key)[0];
-            if (s.equals(anObject)) {
-                logger.info("新channel接入移除客户端：");
-                channel = clientMap.get(key).getChannel();
-                removeClient(clientMap.get(key).getChannel());
-                if (channel != null && channel.channel().isOpen()) {
-                    channel.close();
-                }
-                channel = null;
-            }
-        }*/
+
         tempClientMap.put(clientId, client);
     }
 
