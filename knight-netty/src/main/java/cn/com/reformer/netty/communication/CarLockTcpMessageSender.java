@@ -59,9 +59,43 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
 
 
     }
+    public void getStatus(String sn) {
 
+        Client client = ClientManager.getClientBySN(sn);
+
+        if(null != client){
+            BaseParam baseParam = createBaseParam2(sn);
+
+            ChannelHandlerContext channel = client.getChannel();
+            if(null != channel){
+                String o = new Gson().toJson(baseParam);
+                channel.writeAndFlush(o);
+            }
+            else{
+                logger.debug("设备不在线，通道channel为空，执行失败");
+            }
+
+        }
+        else{
+            logger.debug("设备不在线，执行失败");
+        }
+
+
+
+
+    }
     private BaseParam createBaseParam(String sn) {
         byte cmd=0x02;
+        BaseParam baseParam=new BaseParam();
+        baseParam.setSn(sn);
+        baseParam.setCmd(cmd);
+        int randomDig=nextInt(10000,100000);
+        baseParam.setNonce(String.valueOf(randomDig));
+        baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
+        return baseParam;
+    }
+    private BaseParam createBaseParam2(String sn) {
+        byte cmd=0x03;
         BaseParam baseParam=new BaseParam();
         baseParam.setSn(sn);
         baseParam.setCmd(cmd);

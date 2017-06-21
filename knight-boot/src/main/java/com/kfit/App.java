@@ -79,6 +79,12 @@ public class App {
         carLockTcpMessageSender.openDoor(sn);
         return "open success";
     }
+    @RequestMapping(value = "/getstatus", method = RequestMethod.GET)
+    @ResponseBody
+    public String getstatus(String sn) {
+        carLockTcpMessageSender.getStatus(sn);
+        return "open success";
+    }
 
     //这里指定是条状的jsp界面
     @RequestMapping(value = "/index1")
