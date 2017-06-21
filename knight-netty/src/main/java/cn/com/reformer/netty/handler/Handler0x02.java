@@ -27,6 +27,7 @@ public class Handler0x02 extends TCPMessageHandlerAdapter {
     public void doHandle(BaseParam m, ChannelHandlerContext ctx) {
 
         System.out.println("开门返回："+m.toString());
+
     }
 
 
