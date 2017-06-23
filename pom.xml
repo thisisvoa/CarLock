@@ -26,7 +26,7 @@
         <jdk.version>1.7</jdk.version>
         <buildjdk.version>1.7</buildjdk.version>
         <netty.version>4.0.34.Final</netty.version>
-        <spring.version>4.3.4.RELEASE</spring.version>
+        <spring.version>4.2.8.RELEASE</spring.version>
         <cglib.version>3.1</cglib.version>
         <aspectj.version>1.8.9</aspectj.version>
     </properties>
@@ -177,6 +177,7 @@
                         <include>**/*.txt</include>
                         <include>**/*.class</include>
                         <include>**/*.key</include>
+                        <include>**/*.MF</include>
                     </includes>
                     <excludes>
                         <exclude>**/db.properties</exclude>
