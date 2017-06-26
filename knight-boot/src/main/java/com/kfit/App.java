@@ -79,9 +79,9 @@ public class App {
         carLockTcpMessageSender.openDoor(sn);
         return "open success";
     }
-    @RequestMapping(value = "/getstatus", method = RequestMethod.GET)
+    @RequestMapping(value = "/getStatus", method = RequestMethod.GET)
     @ResponseBody
-    public String getstatus(String sn) {
+    public String getStatus(String sn) {
         carLockTcpMessageSender.getStatus(sn);
         return "open success";
     }
