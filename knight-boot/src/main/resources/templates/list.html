@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div align="center">
+    <!-- Default panel contents -->
+    <div class="panel-heading">设备连接列表</div>
+
+    <table class="table" border="1">
+
+        <thead>
+        <td>设备编号</td>
+        <td>设备IP和端口</td>
+        <td>设备类型</td>
+        <td>发送开启指令 || 查询状态</td>
+        </thead>
+
+        <tr th:each="user : ${tcpUserList}">
+            <td th:text="${user.sn}">1</td>
+            <td th:text="${user.ipAndPort}">Red chair</td>
+            <td th:text="${user.type}">$350</td>
+           <td> <a  target="_blank" th:href="@{/open(sn=${user.sn})}">发送开启指令</a>||  <a  target="_blank"   th:href="@{/getStatus(sn=${user.sn})}">查询状态</a></td>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>
