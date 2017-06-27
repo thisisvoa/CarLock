@@ -30,9 +30,18 @@ public class SignUtils {
         System.arraycopy(nonce_byte, 0, _temp_crc, 10, 4);
 
         String crc = getCRC(_temp_crc);
+
         byte[] src = hexStringToBytes(crc);
         System.arraycopy(src, 0, ret, 14, 2);
-        byte[] encryptResult = AES.encrypt(ret, keys);
+        try {
+            String bytes2Hex = bytes2Hex(ret);
+            System.out.println(bytes2Hex);
+            byte[] encryptResult = AESCoder.encrypt(ret, keys);
+            String s = bytes2Hex(encryptResult);
+            return s;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         String bytes2Hex = bytes2Hex(ret);
         return bytes2Hex;
@@ -57,21 +66,20 @@ public class SignUtils {
      * @since 1.0
      */
     public static String getCRC(byte[] bytes) {
-        int CRC = 0x0000ffff;
-        int POLYNOMIAL = 0x0000a001;
-        int i, j;
-        for (i = 0; i < bytes.length; i++) {
-            CRC ^= ((int) bytes[i] & 0x000000ff);
-            for (j = 0; j < 8; j++) {
-                if ((CRC & 0x00000001) != 0) {
-                    CRC >>= 1;
-                    CRC ^= POLYNOMIAL;
-                } else {
-                    CRC >>= 1;
-                }
+        int crc = 0x00;          // initial value
+        int polynomial = 0x1021;
+        for (int index = 0 ; index< bytes.length; index++) {
+            byte b = bytes[index];
+            for (int i = 0; i < 8; i++) {
+                boolean bit = ((b   >> (7-i) & 1) == 1);
+                boolean c15 = ((crc >> 15    & 1) == 1);
+                crc <<= 1;
+                if (c15 ^ bit) crc ^= polynomial;
             }
         }
-        return Integer.toHexString(CRC);
+        crc &= 0xffff;
+
+        return Integer.toHexString(crc);
     }
     /**
      * byte数组转hex字符串<br/>
@@ -137,7 +145,16 @@ public class SignUtils {
 
         String str="43276876";
         str.getBytes();
-        getSigin("123456789", (byte) 0x01,"43276876");
-        System.out.println(str.getBytes().length);
+        String sing=getSigin("170627000", (byte) 0x01,"43276876");
+        System.out.println(sing);
+        System.out.println("============解密 ===============");
+        try {
+            byte[] bytes =hexStringToBytes(sing);
+            byte[] bb=AESCoder.decrypt(bytes,AESCoder.keys);
+            System.out.println(bytes2Hex(bb));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println();
     }
 }
