@@ -38,24 +38,23 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
 
         if (null != m) {
 
-            if (null != m.getSn() && 1 != m.getCmd() && null != m.getNonce()) {
+            if (null != m.getSn() && null != m.getNonce()) {
                 TcpUser user = new TcpUser();
                 user.setType(UserType.CARLOCK);
                 user.setSn(m.getSn());
                 try {
                     byte[] jiemi = AESCoder.decrypt(SignUtils.hexStringToBytes(m.getSign()), AESCoder.keys);
-                    System.arraycopy(jiemi, 0, ret, 0, 9);
                     byte[] sn_bytes = new byte[9];
                     byte cmd_byte;
                     byte[] nonce_bytes = new byte[4];
                     System.arraycopy(jiemi, 0, sn_bytes, 0, 9);
                     cmd_byte = jiemi[9];
-                    System.arraycopy(jiemi, 0, nonce_bytes, 10, 4);
+                    System.arraycopy(jiemi, 10, nonce_bytes, 0, 4);
 
                     String sn_hex = SignUtils.bytes2Hex(sn_bytes);
                     String once_hex = SignUtils.bytes2Hex(nonce_bytes);
                     String comp_sn_hex = SignUtils.bytes2Hex(m.getSn().getBytes());
-                    String comp_nonce_hex = SignUtils.bytes2Hex(m.getNonce().getBytes());
+                    String comp_nonce_hex = SignUtils.bytes2Hex(m.getNonce().substring(0,4).getBytes());
                     boolean sn_is_same = sn_hex.equals(comp_sn_hex);
                     boolean cmd_is_same = cmd_byte == m.getCmd();
                     boolean nonce_is_same = once_hex.equals(comp_nonce_hex);
