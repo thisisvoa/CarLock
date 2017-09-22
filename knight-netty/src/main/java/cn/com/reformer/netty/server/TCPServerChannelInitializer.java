@@ -1,9 +1,14 @@
 package cn.com.reformer.netty.server;
 
+import cn.com.reformer.netty.encode.StrEncoder;
 import cn.com.reformer.netty.handler.TCPMessageHandler;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +26,10 @@ public class TCPServerChannelInitializer extends ChannelInitializer<SocketChanne
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline.addLast("tcpMsgEncoder", new StringEncoder());
+        pipeline.addLast("tcpMsgEncoder", new StrEncoder());
+        ByteBuf delimiter = Unpooled.copiedBuffer("\n\r".getBytes());
+        DelimiterBasedFrameDecoder decoder = new DelimiterBasedFrameDecoder(1500,delimiter);
+        pipeline.addLast("decoder", decoder);
         pipeline.addLast("tcpMsgDecoder", new StringDecoder());
         pipeline.addLast("tcpMsgHandler", tcpMessageHandler);
     }

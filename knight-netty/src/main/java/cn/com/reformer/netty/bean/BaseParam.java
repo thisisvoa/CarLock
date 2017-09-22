@@ -11,6 +11,7 @@ public     class BaseParam  implements MessagePacket{
 	private String sign;
 	private  String sentid; //发送的用户
 
+    private byte type=1;
 	private  String sentMsg;  // 发送的消息
 
 	public byte getCmd() {
@@ -60,5 +61,27 @@ public     class BaseParam  implements MessagePacket{
 
 	public void setSign(String sign) {
 		this.sign = sign;
+	}
+
+	public byte getType() {
+		return type;
+	}
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "BaseParam{" +
+				"cmd=" + cmd +
+				", sn='" + sn + '\'' +
+				", version=" + version +
+				", nonce='" + nonce + '\'' +
+				", sign='" + sign + '\'' +
+				", sentid='" + sentid + '\'' +
+				", type=" + type +
+				", sentMsg='" + sentMsg + '\'' +
+				'}';
 	}
 }

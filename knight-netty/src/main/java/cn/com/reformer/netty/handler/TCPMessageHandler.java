@@ -1,8 +1,7 @@
 package cn.com.reformer.netty.handler;
 
 import cn.com.reformer.netty.bean.BaseParam;
-import cn.com.reformer.netty.msg.ReceivePackBean;
-import cn.com.reformer.netty.msg.ServerMsgQueue;
+import cn.com.reformer.netty.msg.*;
 import cn.com.reformer.netty.util.msg.ClientManager;
 import com.google.gson.Gson;
 import io.netty.channel.ChannelHandler;
@@ -39,18 +38,23 @@ public class TCPMessageHandler extends SimpleChannelInboundHandler <String>{
         Gson g=new Gson();
         try{
             bpg= g.fromJson(msg.toString(), BaseParam.class);
-
-            if(null !=bpg){
-                try {
-
-                    ReceivePackBean receivePackBean = new ReceivePackBean();
-                    receivePackBean.setChannel(ctx);
-                    receivePackBean.setMsg(bpg);
-                    ServerMsgQueue.getRecqueue().put(receivePackBean);
-                } catch (InterruptedException e) {
-                    LOG.error("主handler---接收消息失败", e);
-                }
+            if(bpg.getCmd()== MessageID.MSG_0x01){
+              MSG_0x01 msg_0x01 =    g.fromJson(msg.toString(), MSG_0x01.class);
+                setValue(ctx,msg_0x01);
             }
+            else if(bpg.getCmd()== MessageID.MSG_0x02){
+              MSG_0x02 msg0x02 =    g.fromJson(msg.toString(), MSG_0x02.class);
+                setValue(ctx,msg0x02);
+            }
+            else if(bpg.getCmd()== MessageID.MSG_0x03){
+              MSG_0x03  msg0x03 =    g.fromJson(msg.toString(), MSG_0x03.class);
+                setValue(ctx,msg0x03);
+            }
+            else if(bpg.getCmd()== MessageID.MSG_0x04){
+                 MSG_0x04 msg04 =    g.fromJson(msg.toString(), MSG_0x04.class);
+                setValue(ctx,msg04);
+            }
+
 
         }catch(Exception e){
             LOG.error(String.valueOf("发送的数据格式有误请重新发送".getBytes("UTF-8")));
@@ -65,7 +69,17 @@ public class TCPMessageHandler extends SimpleChannelInboundHandler <String>{
 
 
     }
+    private void setValue(ChannelHandlerContext ctx,BaseParam baseParam) {
+        try {
 
+            ReceivePackBean receivePackBean = new ReceivePackBean();
+            receivePackBean.setChannel(ctx);
+            receivePackBean.setMsg(baseParam);
+            ServerMsgQueue.getRecqueue().put(receivePackBean);
+        } catch (InterruptedException e) {
+            LOG.error("主handler---接收消息失败", e);
+        }
+    }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         try {

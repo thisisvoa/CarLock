@@ -4,16 +4,19 @@ import cn.com.reformer.netty.bean.Client;
 import cn.com.reformer.netty.bean.TcpUser;
 import cn.com.reformer.netty.bean.TcpUserVO;
 import cn.com.reformer.netty.communication.CarLockTcpMessageSender;
+import cn.com.reformer.netty.guava.SimpleListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,6 +38,11 @@ public class App {
 
     @Autowired
     private CarLockTcpMessageSender carLockTcpMessageSender;
+
+    @Autowired
+    SimpleListener simpleListener;
+    @Resource
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(Model model) {
@@ -114,5 +122,21 @@ public class App {
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
+    }
+
+    public SimpleListener getSimpleListener() {
+        return simpleListener;
+    }
+
+    public void setSimpleListener(SimpleListener simpleListener) {
+        this.simpleListener = simpleListener;
+    }
+
+    public SimpMessagingTemplate getSimpMessagingTemplate() {
+        return simpMessagingTemplate;
+    }
+
+    public void setSimpMessagingTemplate(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 }

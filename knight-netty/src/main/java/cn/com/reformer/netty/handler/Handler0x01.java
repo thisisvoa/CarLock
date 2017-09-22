@@ -66,6 +66,7 @@ public class Handler0x01 extends TCPMessageHandlerAdapter {
                         ret.setVersion(m.getVersion());
                         ret.setNonce(m.getNonce());
                         ret.setSign(m.getSign());
+                        ret.setType(m.getType());
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage());

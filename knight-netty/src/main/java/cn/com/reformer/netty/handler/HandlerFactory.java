@@ -25,6 +25,8 @@ public class HandlerFactory {
 
     @Autowired
     private Handler0x03 handler0x03;
+  @Autowired
+    private Handler0x04 handler0x04;
 
 
     private static final Logger logger = LoggerFactory.getLogger(HandlerFactory.class);
@@ -47,7 +49,9 @@ public class HandlerFactory {
             case MessageID.MSG_0x03:
                 h = handler0x03;
                 break;
-
+             case MessageID.MSG_0x04:
+                h = handler0x04;
+                break;
             default:
                 break;
         }
@@ -78,5 +82,11 @@ public class HandlerFactory {
         this.handler0x03 = handler0x03;
     }
 
+    public Handler0x04 getHandler0x04() {
+        return handler0x04;
+    }
 
+    public void setHandler0x04(Handler0x04 handler0x04) {
+        this.handler0x04 = handler0x04;
+    }
 }

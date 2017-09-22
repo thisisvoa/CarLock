@@ -89,6 +89,7 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
         BaseParam baseParam=new BaseParam();
         baseParam.setSn(sn);
         baseParam.setCmd(cmd);
+        baseParam.setType((byte) 1);
         int randomDig=nextInt(10000,100000);
         baseParam.setNonce(String.valueOf(randomDig));
         baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));

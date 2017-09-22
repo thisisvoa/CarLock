@@ -91,7 +91,8 @@
 	<bean id="handler0X02" class="cn.com.reformer.netty.handler.Handler0x02"></bean>
 	<!-- 客户端通用应答-->
 	<bean id="handler0X03" class="cn.com.reformer.netty.handler.Handler0x03"></bean>
-
+	<!-- 客户端通用应答-->
+	<bean id="handler0X04" class="cn.com.reformer.netty.handler.Handler0x04"></bean>
 	<!-- 请求分发工厂类-->
 	<bean id="handlerFactory" class="cn.com.reformer.netty.handler.HandlerFactory"></bean>
 	<!-- netty 服务处理类-->
@@ -129,4 +130,8 @@
 
 
 	<bean id="tcpMessageSender" class="cn.com.reformer.netty.communication.CarLockTcpMessageSender"></bean>
+
+	<bean id="eventBus" class="com.google.common.eventbus.EventBus"/>
+
+	<bean id="simpleListener" class="cn.com.reformer.netty.guava.SimpleListener"></bean>
 </beans>

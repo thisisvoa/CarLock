@@ -22,7 +22,10 @@ public class MessageID {
      */
     public static final byte MSG_0x03 = 0x03;
 
-
+    /**
+     * （3）上传状态
+     */
+    public static final byte MSG_0x04 = 0x04;
     /**
      * 服务端端通用返回指令*
      */
