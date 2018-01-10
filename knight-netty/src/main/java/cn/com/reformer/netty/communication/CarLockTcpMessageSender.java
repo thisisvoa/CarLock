@@ -91,8 +91,10 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
         baseParam.setCmd(cmd);
         baseParam.setType((byte) 1);
         int randomDig=nextInt(10000,100000);
-        baseParam.setNonce(String.valueOf(randomDig));
-        baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
+        byte[] nonce_byte=int2byte(randomDig);
+        String str_nonce = bytesToHexString(nonce_byte);
+        baseParam.setNonce(str_nonce);
+        baseParam.setSign(SignUtils.getSigin(sn, cmd,str_nonce));
         return baseParam;
     }
     private BaseParam createBaseParam2(String sn) {
@@ -101,11 +103,37 @@ public class CarLockTcpMessageSender extends TCPMessageSender {
         baseParam.setSn(sn);
         baseParam.setCmd(cmd);
         int randomDig=nextInt(10000,100000);
-        baseParam.setNonce(String.valueOf(randomDig));
-        baseParam.setSign(SignUtils.getSigin(sn, cmd, String.valueOf(randomDig)));
+        byte[] nonce_byte=int2byte(randomDig);
+        String str_nonce = bytesToHexString(nonce_byte);
+        baseParam.setNonce(str_nonce);
+        baseParam.setSign(SignUtils.getSigin(sn, cmd, str_nonce));
         return baseParam;
     }
+    //大端模式
+    public static byte[] int2byte(int res) {
+        byte[] targets = new byte[4];
 
+        targets[3] = (byte) (res & 0xff);// 最低位
+        targets[2] = (byte) ((res >> 8) & 0xff);// 次低位
+        targets[1] = (byte) ((res >> 16) & 0xff);// 次高位
+        targets[0] = (byte) (res >>> 24);// 最高位,无符号右移。
+        return targets;
+    }
+    public static String bytesToHexString(byte[] src){
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
+    }
     public int nextInt(final int min, final int max) {
 
         Random rand = new Random();

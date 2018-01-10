@@ -15,19 +15,19 @@ public class SignUtils {
         byte[] ret=new byte[16];
         byte[] _temp_crc=new byte[14];
         int _sn=Integer.parseInt(sn);
-        int _notice=Integer.parseInt(notice);
+        byte[] _notice_byte=hexStringToBytes(notice);
         byte[]  sn_byte=sn.getBytes();
-        byte[] nonce_byte=notice.getBytes();
+       // byte[] nonce_byte=notice.getBytes();
 
 
         System.arraycopy(sn_byte, 0, ret,0,9);
         ret[9]=cmd;
-        System.arraycopy(nonce_byte, 0, ret,10,4);
+        System.arraycopy(_notice_byte, 0, ret,10,4);
 
   //======================crc16========================================
         System.arraycopy(sn_byte, 0, _temp_crc,0,9);
         _temp_crc[9]=cmd;
-        System.arraycopy(nonce_byte, 0, _temp_crc, 10, 4);
+        System.arraycopy(_notice_byte, 0, _temp_crc, 10, 4);
 
 
         byte[] src = getCRC(_temp_crc);
