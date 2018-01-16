@@ -10,7 +10,7 @@ public     class BaseParam  implements MessagePacket{
 	private String nonce;
 	private String sign;
 	private  String sentid; //发送的用户
-
+	private Integer status;
     private byte type=1;
 	private  String sentMsg;  // 发送的消息
 
@@ -69,6 +69,14 @@ public     class BaseParam  implements MessagePacket{
 
 	public void setType(byte type) {
 		this.type = type;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	@Override

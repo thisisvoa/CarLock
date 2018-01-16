@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Eclipse" />
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -23,13 +24,14 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="knight-boot" />
+        <module name="knight-netty" />
         <module name="knight-qrcode-netty" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.7">
       <module name="knight" target="1.7" />
-      <module name="knight-boot" target="1.6" />
-      <module name="knight-qrcode-netty" target="1.7" />
+      <module name="knight-boot" target="1.7" />
+      <module name="knight-netty" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
