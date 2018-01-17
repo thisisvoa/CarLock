@@ -1,8 +1,0 @@
-com\kfit\service\WsController.class
-com\kfit\service\ResponseMessage.class
-org\kfit\service\HelloService.class
-com\kfit\service\HelloService2.class
-com\kfit\config\ConfigClass.class
-com\kfit\config\WebSocketConfig.class
-com\kfit\service\RequestMessage.class
-com\kfit\App.class
